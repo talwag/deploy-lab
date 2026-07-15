@@ -43,4 +43,4 @@ def classify_sentiment(text: str) -> str:
 @app.post("/analyze", response_model=AnalyzeResponse)
 def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
     sentiment = classify_sentiment(request.text)
-    return AnalyzeResponse(sentiment=sentiment, text=request.text, version="2.0")
+    return AnalyzeResponse(sentiment=sentiment, text=request.text, version="3.0")
