@@ -1,3 +1,4 @@
+import os
 import re
 
 from fastapi import FastAPI
@@ -26,6 +27,7 @@ class AnalyzeResponse(BaseModel):
     sentiment: str
     text: str
     version: str
+    api_key_set: bool
 
 
 def classify_sentiment(text: str) -> str:
@@ -43,4 +45,5 @@ def classify_sentiment(text: str) -> str:
 @app.post("/analyze", response_model=AnalyzeResponse)
 def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
     sentiment = classify_sentiment(request.text)
-    return AnalyzeResponse(sentiment=sentiment, text=request.text, version="5.0")
+    api_key = os.getenv("OPENAI_API_KEY", "not-set")
+    return AnalyzeResponse(sentiment=sentiment, text=request.text, version="2.0", api_key_set=api_key != "not-set")
